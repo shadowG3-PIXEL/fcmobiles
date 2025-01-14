@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC Mobile - Calculadora de Puntos</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #333;
+    padding: 10px 0;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.2rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+header {
+    background-color: #1e73be;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.calculator {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.calculator .info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.calculator select,
+.calculator input,
+.calculator button {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    margin-bottom: 15px;
+}
+
+.calculator button {
+    background-color: #1e73be;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.image-container img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .calculator {
+        grid-template-columns: 1fr; /* En pantallas pequeñas, los elementos se apilan en una sola columna */
+        padding: 10px;
+    }
+
+    .calculator select,
+    .calculator input,
+    .calculator button {
+        width:99%; /* Asegura que los elementos ocupen el ancho completo */
+    }
+
+    .player-info {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+    }
+
+    .calculator button {
+        font-size: 1.2rem; /* Hace el botón más grande en pantallas muy pequeñas */
+    }
+
+    .image-container img {
+        max-width: 80%; /* Limita el tamaño de las imágenes en pantallas pequeñas */
+    }
+
+    nav {
+        flex-direction: column; /* En pantallas pequeñas, la navegación se apila verticalmente */
+        align-items: center;
+        padding: 15px 0;
+    }
+
+    nav a {
+        font-size: 1rem; /* Ajuste de tamaño de texto */
+        margin: 10px 0;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+   
+    <header>
+        <h1>FC Mobile - Calculadora de Puntos Invernales</h1>
+        <h1>Apartado Galeria</h1>
+    </header>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="https://youtube.com/@sanadorgaming?si=uCfxgn3fJFtXhRCZ">YouTube</a>
+        <a href="https://www.tiktok.com/@sanadorgamingxd?_t=ZM-8t2rZecMq9N&_r=1">TikTok</a>
+        <a href="calculadora.html">calculadora</a>
+    </nav>
+
+    <div class="calculator">
+        <!-- Contenedor de la calculadora -->
+        <div class="info">
+            <h1>Calculadora de Puntos Invernales</h1>
+            
+            <label for="player1">Jugadores GRL 105 (P.200):</label>
+            <input type="number" id="player1">
+
+            <label for="player2">Jugadores GRL 104 (P.150):</label>
+            <input type="number" id="player2">
+
+            <label for="player3">Jugadores GRL 103 (P.100):</label>
+            <input type="number" id="player3">
+
+            <label for="player4">Jugadores GRL 102 (P.25):</label>
+            <input type="number" id="player4">
+            
+            <label for="player5">Jugadores GRL 101(P.15):</label>
+            <input type="number" id="player5">
+            
+            <label for="player6">Jugadores GRL 98-100(P.10):</label>
+            <input type="number" id="player6">
+            
+            <label for="player7">Jugadores GRL 95-97(P.5):</label>
+            <input type="number" id="player7">
+
+            <button onclick="calculatePoints()">Calcular Puntos Totales</button>
+            <div class="result" id="result">Ingresa los valores para calcular.</div>
+            <div class="result2" id="result2"></div>
+        </div>
+
+        <!-- Contenedor de jugadores e imágenes -->
+        <div>
+            <h2>Selecciona un GRL:</h2>
+            <select id="grlFilter" onchange="filterByGRL()">
+                <option value="" disabled selected>Elige un GRL</option>
+                <option value="105">GRL 105</option>
+                <option value="104">GRL 104</option>
+                <option value="103">GRL 103</option>
+                <option value="102">GRL 102</option>
+            </select>
+
+            <h2>Selecciona un jugador:</h2>
+            <select id="playerList" onchange="updatePlayerInfo(); calculatePoints()">
+                <option value="" disabled selected>Elige un jugador</option>
+                <!-- GRL 105 listo-->
+                <option value="player1" data-cost="400" data-grl="105" data-image="cartas\grl105\Bergkamp_fc25_download.png">Bergkamp</option>
+                <option value="player1" data-cost="700" data-grl="105" data-image="cartas\grl105\Cafu_fc25_download.png">Cafu</option>
+                <option value="player1" data-cost="800" data-grl="105" data-image="cartas\grl105\De bruyne_fc25_download.png">De Bruyne</option>
+                <option value="player1" data-cost="550" data-grl="105" data-image="cartas\grl105\Ferdinand_fc25_download.png">Ferdinand</option>
+                <option value="player1" data-cost="500" data-grl="105" data-image="cartas\grl105\Fernando Torres_fc25_download.png">Fernando Torres</option>
+                <option value="player1" data-cost="650" data-grl="105" data-image="cartas\grl105\Ginola_fc25_download.png">Ginola</option>
+                <option value="player1" data-cost="600" data-grl="105" data-image="cartas\grl105\Hazard_fc25_download.png">Hazard</option>
+                <option value="player1" data-cost="700" data-grl="105" data-image="cartas\grl105\Henry_fc25_download.png">Henry</option>
+                <option value="player1" data-cost="450" data-grl="105" data-image="cartas\grl105\Kompany_fc25_download.png">Kompany</option>
+                <option value="player1" data-cost="950" data-grl="105" data-image="cartas\grl105\Pelé_fc25_download.png">Pelé</option>
+                <option value="player1" data-cost="700" data-grl="105" data-image="cartas\grl105\Palmer_fc25_download.png">Palmer</option>
+                <option value="player1" data-cost="600" data-grl="105" data-image="cartas\grl105\Rijkaard_fc25_download.png">Rijkaard</option>
+                <option value="player1" data-cost="400" data-grl="105" data-image="cartas\grl105\Ramires_fc25_download.png">Ramires</option>
+                <option value="player1" data-cost="550" data-grl="105" data-image="cartas\grl105\Toure_fc25_download.png">Toure</option>
+                <option value="player1" data-cost="450" data-grl="105" data-image="cartas\grl105\Zanetti_fc25_download.png">Zanetti</option>
+                <option value="player1" data-cost="750" data-grl="105" data-image="cartas\grl105\Van der Sar_fc25_download.png">Van Der Sar</option>
+
+                <!-- GRL 104 listo-->
+                <option value="player2" data-cost="300" data-grl="104" data-image="cartas\grl104\Cantona_fc25_download.png">Cantona</option>
+                <option value="player2" data-cost="600" data-grl="104" data-image="cartas\grl104\Davies_fc25_download.png">Davies</option>
+                <option value="player2" data-cost="350" data-grl="104" data-image="cartas\grl104\De jong_fc25_download.png">De Jong</option>
+                <option value="player2" data-cost="200" data-grl="104" data-image="cartas\grl104\Del piero_fc25_download.png">Del Piero</option>
+                <option value="player2" data-cost="350" data-grl="104" data-image="cartas\grl104\Eder Militao_fc25_download.png">Eder Militao</option>
+                <option value="player2" data-cost="200" data-grl="104" data-image="cartas\grl104\Guti_fc25_download.png">Guti</option>
+                <option value="player2" data-cost="300" data-grl="104" data-image="cartas\grl104\Hamsik_fc25_download.png">Hamsik</option>
+                <option value="player2" data-cost="450" data-grl="104" data-image="cartas\grl104\Isak_fc25_download.png">Isak</option>
+                <option value="player2" data-cost="250" data-grl="104" data-image="cartas\grl104\Kulusevski_fc25_download.png">Kulusevski</option>
+                <option value="player2" data-cost="300" data-grl="104" data-image="cartas\grl104\Lizarazu_fc25_download.png">Lizarazu</option>
+                <option value="player2" data-cost="350" data-grl="104" data-image="cartas\grl104\Mazraoui_fc25_download.png">Mazraoui</option>
+                <option value="player2" data-cost="450" data-grl="104" data-image="cartas\grl104\Neuer_fc25_download.png">Neuer</option>
+                <option value="player2" data-cost="200" data-grl="104" data-image="cartas\grl104\Okocha_fc25_download.png">Okocha</option>
+                <option value="player2" data-cost="250" data-grl="104" data-image="cartas\grl104\Pedro porro_fc25_download.png">Pedro Porro</option>
+                <option value="player2" data-cost="500" data-grl="104" data-image="cartas\grl104\Raphinha_fc25_download.png">Raphinha</option>
+                <option value="player2" data-cost="250" data-grl="104" data-image="cartas\grl104\Tonali_fc25_download.png">Tonali</option>
+
+                <!-- GRL 103 -->
+                <option value="player3" data-cost="300" data-grl="103" data-image="cartas\grl103\Balotelli_fc25_download.png">Balotelli</option>
+                <option value="player3" data-cost="400" data-grl="103" data-image="cartas\grl103\De Paul_fc25_download.png">De Paul</option>
+                <option value="player3" data-cost="200" data-grl="103" data-image="cartas\grl103\Fred_fc25_download.png">Fred</option>
+                <option value="player3" data-cost="150" data-grl="103" data-image="cartas\grl103\Gatti_fc25_download.png">Gatti</option>
+                <option value="player3" data-cost="300" data-grl="103" data-image="cartas\grl103\Howard_fc25_download.png">Howard</option>
+                <option value="player3" data-cost="150" data-grl="103" data-image="cartas\grl103\Joao Neves_fc25_download.png">Joao Neves</option>
+                <option value="player3" data-cost="150" data-grl="103" data-image="cartas\grl103\Litmanen_fc25_download.png">Litmanen</option>
+                <option value="player3" data-cost="150" data-grl="103" data-image="cartas\grl103\Locatelli_fc25_download.png">Locatelli</option>
+                <option value="player3" data-cost="250" data-grl="103" data-image="cartas\grl103\Malen_fc25_download.png">Malen</option>
+                <option value="player3" data-cost="150" data-grl="103" data-image="cartas\grl103\Mctominay_fc25_download.png">Mctominay</option>
+                <option value="player3" data-cost="200" data-grl="103" data-image="cartas\grl103\Nuno Tavares_fc25_download.png">Nuno Tavares</option>
+                <option value="player3" data-cost="250" data-grl="103" data-image="cartas\grl103\Pulisic_fc25_download.png">Pulisic</option>
+                <option value="player3" data-cost="200" data-grl="103" data-image="cartas\grl103\Reus_fc25_download.png">Reus</option>
+                <option value="player3" data-cost="200" data-grl="103" data-image="cartas\grl103\Singo_fc25_download.png">Singo</option>
+                <option value="player3" data-cost="250" data-grl="103" data-image="cartas\grl103\Zardes_fc25_download.png">Zardes</option>
+                <option value="player3" data-cost="200" data-grl="103" data-image="cartas\grl103\Zhegrova_fc25_download.png">Zhegrova</option>
+
+                <!-- GRL 102 -->
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Alex Berenguer_fc25_download.png">Alex Berenguer</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Berge_fc25_download.png">Berge</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Bryan Zaragoza_fc25_download.png">Bryan Zaragoza</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Bynoe-Gittens_fc25_download.png">Bynoe Gittens</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Ekitike_fc25_download.png">Ekitike</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\El Shaarawy_fc25_download.png">El Shaarawy</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Forsberg_fc25_download.png">Forsberg</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Gauld_fc25_download.png">Gauld</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Hien_fc25_download.png">Hien</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Hjulmand_fc25_download.png">Hjulmand</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Lukeba_fc25_download.png">Lukeba</option>
+                <option value="player4" data-cost="200" data-grl="102" data-image="cartas\grl102\Muslera_fc25_download.png">Muslera</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Nico Paz_fc25_download.png">Nico Paz</option>
+                <option value="player4" data-cost="200" data-grl="102" data-image="cartas\grl102\Reijnders_fc25_download.png">Reijnders</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Santamaria_fc25_download.png">Santamaria</option>
+                <option value="player4" data-cost="100" data-grl="102" data-image="cartas\grl102\Stoger_fc25_download.png">Stoger</option>
+
+                
+            </select>
+
+            
+            <div class="player-info">
+                <p id="playerCost">Costo: -</p>
+                <div class="image-container">
+                    <img id="playerImage" src="" alt="jugador no seleccionado">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculatePoints() {
+            const multiplier105 = 200;
+            const multiplier104 = 150;
+            const multiplier103 = 100;
+            const multiplier102 = 25;
+            const multiplier101 = 15;
+            const multiplier198 = 10;
+            const multiplier195 = 5;
+
+            const player1 = (parseInt(document.getElementById('player1').value) || 0) * multiplier105;
+            const player2 = (parseInt(document.getElementById('player2').value) || 0) * multiplier104;
+            const player3 = (parseInt(document.getElementById('player3').value) || 0) * multiplier103;
+            const player4 = (parseInt(document.getElementById('player4').value) || 0) * multiplier102;
+            const player5 = (parseInt(document.getElementById('player5').value) || 0) * multiplier101;
+            const player6 = (parseInt(document.getElementById('player6').value) || 0) * multiplier198;
+            const player7 = (parseInt(document.getElementById('player7').value) || 0) * multiplier195;
+
+            const totalPoints = player1 + player2 + player3 + player4+ player5 + player6 + player7;
+
+            const playerList = document.getElementById('playerList');
+            const selectedOption = playerList.options[playerList.selectedIndex];
+            const cost = selectedOption ? parseInt(selectedOption.getAttribute('data-cost')) || 0 : 0;
+
+            if (!selectedOption || selectedOption.value === "") {
+                document.getElementById('result').textContent = `Puntos Totales: ${totalPoints}`;
+                document.getElementById('result2').textContent = "";
+                return;
+            }
+
+            const remainingPoints = totalPoints - cost;
+
+            document.getElementById('result').textContent = `Puntos Totales: ${totalPoints}`;
+            if (remainingPoints === 0) {
+                document.getElementById('result2').textContent = `Puntos suficientes para conseguir al jugador.`;
+            } else if (remainingPoints > 0) {
+                document.getElementById('result2').textContent = `Puntos sobrantes: ${Math.abs(remainingPoints)}`;
+            } else {
+                document.getElementById('result2').textContent = `Puntos faltantes para conseguir al jugador: ${Math.abs(remainingPoints)}`;
+            }
+        }
+
+        function updatePlayerInfo() {
+            const playerList = document.getElementById('playerList');
+            const selectedOption = playerList.options[playerList.selectedIndex];
+
+            const cost = selectedOption.getAttribute('data-cost');
+            const image = selectedOption.getAttribute('data-image');
+
+            document.getElementById('playerCost').textContent = `Costo: ${cost || '-'} puntos`;
+            document.getElementById('playerImage').src = image || '';
+        }
+        function filterByGRL() {
+        const selectedGRL = document.getElementById('grlFilter').value;
+        const playerList = document.getElementById('playerList');
+        
+        // Restablecer la selección de jugador al valor vacío
+        playerList.value = '';
+
+        // Mostrar todos los jugadores si no se ha seleccionado un GRL
+        const players = playerList.getElementsByTagName('option');
+        for (let i = 1; i < players.length; i++) {
+            const playerGRL = players[i].getAttribute('data-grl');
+            if (selectedGRL === "" || playerGRL === selectedGRL) {
+                players[i].style.display = 'block';
+            } else {
+                players[i].style.display = 'none';
+            }
+        }
+
+        // Asegurar que el valor del jugador seleccionado se restablezca
+        updatePlayerInfo();  // Llama a la función para actualizar la información del jugador
+    }
+
+    </script>
+</body>
+</html>
